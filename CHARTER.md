@@ -1,55 +1,17 @@
-# {{ New Group Name }} {{ New Group Type }} Charter
+# SoftCPU SIG Charter
 
-## Guidelines for Drafting a Charter
+The RISC-V Soft-CPU SIG provides a forum to advance RISC-V as the preeminent ecosystem for FPGA processor and SoC designs. The SIG will not deliver any specifications or standards. It will develop overall strategy and establish priorities, then create task groups to develop any identified outputs.
 
-This document outlines the process for establishing a new group within RISC-V International. The charter should be developed during the group formation stage and receive approval from the sponsoring commitee. Please refer to the [Chairs Best Practices policy](https://docs.google.com/document/d/1rtXskVd7YyFq74tQ2OrInyM_-OQa228R5UZs5Pm3Vz0/) for comprehensive guidance.
-
-### Task Group (TG) Charter:
-A robust TG charter explicitly outlines the group's objectives, particularly how the group intends to address specific gaps identified by the parent Special Interest Group (SIG) or Committee. It should detail a concise set of deliverables.
-
-### Special Interest Group (SIG) Charter:
-Unlike a Committee, a SIG focuses solely on strategizing, identifying gaps, setting priorities, and possibly initiating other SIGs or TGs to address those gaps. An effective SIG charter clarifies the strategic topics to be tackled and delineates its responsibilities, following the guidelines provided here.
-
-NOTE: Remove this instructional section upon completion.
-
----
-
-## Charter Template
-
-### 1. Introduction:
-
-"The {{ New Group Name }} {{ New Group Type }} aims to [INSERT CLEAR, CONCISE OVERALL MISSION STATEMENT IN 2-3 SENTENCES]."
-
-### 2. Definitions: (Optional)
-
-"[TERM 1] refers to [DEFINITION 1]. It is critical because [EXPLAIN SIGNIFICANCE]. [INCLUDE ADDITIONAL TERMS/DEFINITIONS IF REQUIRED]."
-
-### 3. Background:
-
-"[PROVIDE CONTEXT ABOUT THE GROUP'S RELEVANCE AND ANY PERTINENT TECHNOLOGY]."
-
-### 4. Objectives:
-
-"The {{ New Group Name }} {{ New Group Type }} is committed to delivering [SPECIFY DELIVERABLE] with the following attributes:
-
-[ATTRIBUTE 1]
-[ATTRIBUTE 2]
-[ADD MORE AS REQUIRED]"
-
-### 5. Exclusions: (Optional)
-
-"While not currently in scope, the following items may be considered for future iterations:
-
-[FEATURE 1]
-[FEATURE 2]
-[ADD MORE AS REQUIRED]"
-
-### 6. Collaborations:
-
-"To fulfill its objectives, the {{ New Group Name }} {{ New Group Type }} will engage with:
-
-[GROUP NAME 1] [GROUP TYPE 1]
-[GROUP NAME 2] [GROUP TYPE 2]
-[ADDITIONAL GROUPS AS NEEDED]"
-
-NOTE: Ensure to replace all placeholders ({{ }}) with the actual names or information and remove any optional sections that are not applicable to your charter.
+## Background and Motivation
+1. Today’s FPGA embedded systems platforms are unnecessarily siloed, proprietary, fragmented, and duplicative, whereas RISC-V standards can enable common, interoperable FPGA systems platform profiles.
+2. RISC-V soft processors are an agile platform for rapid innovation in processor and system architecture and implementation.
+3. There are at least as many distinct RISC-V soft processor cores as ASIC cores.
+4. FPGA RISC-V systems bring new opportunities and challenges, such as late customizability / fine-grained subsetting, novel memory systems and interconnects, accelerator integration, partial reconfiguration, and alternative arithmetic systems, that may not be a priority or relevant to ASIC implementations.
+5. Proposed RISC-V ISA extensions may inadvertently induce circuit structures that are prohibitively expensive in certain FPGA devices or use cases.
+6. The shared interests and needs of diverse RISC-V FPGA users are better expressed from within a common technical community.
+   
+## Goals and Scope
+1. Provide a forum for FPGA vendors, developers, and users to pursue common interests, benchmarks, and develop community-based recommendations.
+2. Represent FPGA implementation considerations within RISC-V TGs, acting as a resource for consultations and to monitor progress of RISC-V standards from the perspective of Soft CPUs.
+3. Develop strategy, perform gap analysis, and propose RISC-V extensions, RISC-V platforms, RISC-V profiles, and other technical product for FPGA implementations and applications.
+4. Promote FPGA SoftCPU IP development and inclusion in RISC-V International activities, publications and directories.
