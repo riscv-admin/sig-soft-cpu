@@ -142,7 +142,7 @@ signaling. This comprises:
 The interrelationship of these three subgroups' abstraction
 layers is illustrated in this hardware-software stack diagram.
 
-<img src="/spec/images/composition-layers.png" width="500">
+<img src="https://github.com/grayresearch/CX/blob/main/spec/images/composition-layers.png" width="500">
 
 The three sub-specifications may be applied separately, or together. For
 example, an implementation might implement the -Zicx extension and
