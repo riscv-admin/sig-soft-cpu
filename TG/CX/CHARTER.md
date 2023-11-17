@@ -93,31 +93,19 @@ compatibility.
 
 ### Deliverables, separation of TG responsibilities
 
-1. *CX-Mux-ISA* defines new ISA specs for:
+1. *CX-Mux-ISA* defines new ISA specs for: a. CX multiplexing and error
+signaling (unpriv); b. CX access control (priv).
 
-    a. CX multiplexing and error signaling (unpriv);
+2. *CX-State-ISA* defines new (per each CX) ISA specs for: a. CX-CSR
+instructions (unpriv); b. CX State Context CX-CSRs (priv).
 
-    b. CX access control (priv).
+3. *CX-SW* defines: a. CX-API: CX Runtime API for uniform software access
+to CXs. b. CX-ABI: application binary interface governing disciplined
+use of CX-*-ISA.
 
-2. *CX-State-ISA* defines new (per each CX) ISA specs for:
-
-    a. CX-CSR instructions (unpriv);
-
-    b. CX State Context CX-CSRs (priv).
-
-3. *CX-SW* defines:
-
-    a. CX-API: CX Runtime API for uniform software access to CXs.
-
-    b. CX-ABI: application binary interface governing disciplined use
-    of CX-*-ISA.
-
-4. *CX-HW* defines *optional* specs for:
-
-    a. CXU-LI: reusable CX unit logic interface;
-
-    b. CXU-MD: metadata format describing systems, CPUs, and CXUs,
-    enabling automatic composition of CPU + CXU complexes.
+4. *CX-HW* defines *optional* specs for: a. CXU-LI: reusable CX unit
+logic interface; b. CXU-MD: metadata format describing systems, CPUs,
+and CXUs, enabling automatic composition of CPU + CXU complexes.
 
 ### Acceptance criteria
 
