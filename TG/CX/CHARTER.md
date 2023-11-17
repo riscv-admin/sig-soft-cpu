@@ -143,13 +143,12 @@ versioning story.
 
 In 2019, the RISC-V Foundation FPGA soft processor SIG members, determined
 to advance RISC-V as the preeminent ecosystem for FPGA SoCs, committed to
-"Propose extensions ... to enable interoperable RISC-V FPGA platforms
-and applications".
-
-SIG members set out to define standards by which FPGAs' extensible
-RISC-V cores might implement reusable custom extensions. A marketplace
-of mix-and-match reusable extensions, libraries, and cores, required
-new interop standards for robust composition of extensions in one system.
+"Propose extensions ... to enable interoperable RISC-V FPGA platforms and
+applications". SIG members set out to define standards by which FPGAs'
+extensible RISC-V cores might implement reusable custom extensions. A
+marketplace of mix-and-match reusable extensions, libraries, and cores,
+required new interop standards for robust composition of extensions in
+one system.
 
 Through 2019-2022, member met to define the *minimum viable set* of
 interop interfaces culminating in the
