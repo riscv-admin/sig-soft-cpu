@@ -141,8 +141,9 @@ The CX framework will enable many unpriv computational extension TGs to
 provide their extension as a composable extension, with a modular
 CXU implementation that enables that extension in any CXU-LI-compliant
 CPU cores. CX multiplexing reduces the opcode and CSR impact of such
-extension to zero, extending the life of the 32b encodings. CX versioning
-provides such extensions a uniform forwards compatible versioning story.
+extensions to zero, extending the life of the 32b encodings. CX discovery
+and versioning provides such extensions a uniform forwards compatible
+versioning story.
 
 ### Overlaps (probably many, more TBD)
 
