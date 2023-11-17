@@ -33,7 +33,7 @@ composable extensions, extension libraries, and extension hardware,
 that compose readily and harmoniously.
 
 *CX Multiplexing:* Operationally, a *CX Mux* extension, and CX API and
-ABI enable software to *discover* that a CX is available, to *select*
+ABI, enable software to *discover* that a CX is available, to *select*
 it and to *select* its current CX *state context*, to *issue* its custom
 *CX instructions*, and to *signal* errors; and then discover that another
 CX is available, select it, and issue its instructions. And so forth.
@@ -44,7 +44,7 @@ CX state. A CX state context also has *CX-scoped* CSRs *(CX-CSRs)*,
 accessed by uniform CX-CSR instructions. There may be any number of
 state contexts, per CX, per system, with an arbitrary, dynamic, software
 managed hart-to-CX-context mapping. All stateful CXs implement the *CX
-Context CX-CSRs* enabling uniform OS CX context management. There is an
+Context CX-CSRs* enabling uniform OS CX context management. There is a
 privileged access control mechanism to efficiently grant/deny access to
 CX contexts by less privileged software.
 
