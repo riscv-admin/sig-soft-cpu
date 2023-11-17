@@ -101,7 +101,7 @@ instructions (unpriv); b. CX State Context CX-CSRs (priv).
 
 3. *CX-SW* defines: a. CX-API: CX Runtime API for uniform software access
 to CXs. b. CX-ABI: application binary interface governing disciplined
-use of CX-*-ISA.
+use of CX-\*-ISA.
 
 4. *CX-HW* defines *optional* specs for: a. CXU-LI: reusable CX unit
 logic interface; b. CXU-MD: metadata format describing systems, CPUs,
@@ -143,14 +143,11 @@ versioning story.
 
 In 2019, the RISC-V Foundation FPGA soft processor SIG members, determined
 to advance RISC-V as the preeminent ecosystem for FPGA SoCs, committed to
-"Propose extensions ... to enable interoperable RISC-V FPGA platforms and
-applications". SIG members set out to define standards by which FPGAs'
-extensible RISC-V cores might implement reusable custom extensions. A
-marketplace of mix-and-match reusable extensions, libraries, and cores,
-required new interop standards for robust composition of extensions in
-one system.
-
-Through 2019-2022, member met to define the *minimum viable set* of
-interop interfaces culminating in the
+"Propose extensions ... to enable interoperable RISC-V FPGA platforms
+and applications". SIG members set out to define standards by which
+FPGAs' extensible RISC-V cores might enable a marketplace of reusable
+and composable custom extensions and libraries. Through 2019-2022,
+members met to define the *minimum viable set* of interop interfaces
+culminating in the
 [Draft Proposed RISC-V Composable Custom Extensions Specification](https://raw.githubusercontent.com/grayresearch/CX/main/spec/spec.pdf),
 now proposed as a starting point for RVI CX TG work.
