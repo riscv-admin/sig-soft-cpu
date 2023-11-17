@@ -40,11 +40,11 @@ CX is available, select it, and issue its instructions. And so forth.
 
 *CX State Contexts:* CX instructions may access the current CX's
 current state context. CX instructions are the only means to access
-CX state. A CX state context also has *CX-scoped* CSRs *(CX-CSRs)*,
-accessed by uniform CX-CSR instructions. There may be any number of
+CX state. A CX state context also has *CX-scoped* CSRs *(CXRs)*,
+accessed by uniform CXR instructions. There may be any number of
 state contexts, per CX, per system, with an arbitrary, dynamic, software
 managed hart-to-CX-context mapping. All stateful CXs implement the *CX
-Context CX-CSRs* enabling uniform OS CX context management. There is a
+Context CXRs* enabling uniform OS CX context management. There is a
 privileged access control mechanism to efficiently grant/deny access to
 CX contexts by less privileged software.
 
@@ -96,8 +96,8 @@ compatibility.
 1. *CX-Mux-ISA* defines new ISA specs for: a. CX multiplexing and error
 signaling (unpriv); b. CX access control (priv).
 
-2. *CX-State-ISA* defines new (per each CX) ISA specs for: a. CX-CSR
-instructions (unpriv); b. CX State Context CX-CSRs (priv).
+2. *CX-State-ISA* defines new (per each CX) ISA specs for: a. CXR
+instructions (unpriv); b. CX State Context CXRs (priv).
 
 3. *CX-SW* defines: a. CX-API: CX Runtime API for uniform software access
 to CXs. b. CX-ABI: application binary interface governing disciplined
