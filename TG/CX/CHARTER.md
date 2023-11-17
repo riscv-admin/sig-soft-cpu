@@ -91,7 +91,7 @@ and do not facilitate new side channel attacks.
 versioned over decades, and incorporate mechanisms to improve forwards
 compatibility.
 
-### Deliverables, separation of TG responsibilities
+### Deliverables
 
 1. *CX-Mux-ISA* defines new ISA specs for: a. CX multiplexing and error
 signaling (unpriv); b. CX access control (priv).
