@@ -8,7 +8,7 @@ custom extensions, alongside legacy custom extensions, conflict-free in
 one RISC-V system.
 
 By multiplexing the custom opcode space, and adopting common software
-and hardware interop interfaces, CX enables *uniform* extension naming,
+and hardware interop interfaces, CX can provide *uniform* extension naming,
 discovery, and versioning, error handling, state context management,
 extension hardware module reuse, and stable software binaries for each
 target system -- all without a central management authority.
@@ -30,23 +30,24 @@ The Composable Extensions (CX) Task Group(s) will specify ISA extensions
 and software (API, ABI) and hardware (logic interface, metadata)
 interfaces enabling independent creation of extensible processors,
 composable extensions, extension libraries, and extension hardware,
-that compose readily and harmoniously.
+that compose readily and harmoniously. The deliverables of the TG
+should achieve the following objectives:
 
 *CX Multiplexing:* Operationally, a *CX Mux* extension, and CX API and
 ABI, enable software to *discover* that a CX is available, to *select*
 it and to *select* its current CX *state context*, to *issue* its custom
 *CX instructions*, and to *signal* errors; and then discover that another
-CX is available, select it, and issue its instructions. And so forth.
+CX is available, select it, issue its instructions, and so forth.
 
 *CX State Contexts:* CX instructions may access the current CX's
 current state context. CX instructions are the only means to access
-CX state. A CX state context also has *CX-scoped* CSRs *(CXRs)*,
+CX state. A CX state context may also have *CX-scoped* CSRs *(CXRs)*,
 accessed by uniform CXR instructions. There may be any number of
 state contexts, per CX, per system, with an arbitrary, dynamic, software
-managed hart-to-CX-context mapping. All stateful CXs implement the *CX
-Context CXRs* enabling uniform OS CX context management. There is a
-privileged access control mechanism to efficiently grant/deny access to
-CX contexts by less privileged software.
+managed hart-to-CX-context mapping. A privileged access control mechanism
+will efficiently grant/deny access to CX contexts by less privileged
+software. In such systems, stateful CXs require a uniform method for
+OS CX context management such as *CX Context CXRs*.
 
 *Modular Hardware:* The *CX Unit (CXU) logic interface (CXU-LI)* allows
 reuse of modular hardware implementations. It provides automated
@@ -54,11 +55,13 @@ composition of a DAG of CPUs and CXUs into one system. Each CXU implements
 one or more CXs. In response to a CX instruction, a CPU delegates the
 instruction to the hart's currently selected CXU.
 
-*Tenets:* The extension and interfaces must fulfil these requirements:
-composability, conflict-freedom, decentralization, stable binaries,
-composable hardware, uniformity (of scope, naming, discovery, versioning,
-error signaling, state management, access control), frugality, security,
-and longevity. In particular:
+## Tenets
+
+Further to the objectives, the CX TG should be guided these tenets when
+defining the extension: composability, conflict-freedom, decentralization,
+stable binaries, composable hardware, uniformity (of scope, naming,
+discovery, versioning, error signaling, state management, access control),
+frugality, security, and longevity. In particular:
 
 1. *Composability:* The behavior of a CX or CX library does not change
 when used with other CXs.
@@ -92,6 +95,8 @@ versioned over decades, and incorporate mechanisms to improve forwards
 compatibility.
 
 ### Deliverables
+
+The TG should deliver a specification or specifications for the following:
 
 1. *CX-Mux-ISA* defines new ISA specs for: a. CX multiplexing and error
 signaling (unpriv); b. CX access control (priv).
