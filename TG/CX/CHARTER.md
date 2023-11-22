@@ -49,11 +49,13 @@ will efficiently grant/deny access to CX contexts by less privileged
 software. In such systems, stateful CXs require a uniform method for
 OS CX context management such as *CX Context CXRs*.
 
-*Modular Hardware:* The *CX Unit (CXU) logic interface (CXU-LI)* allows
-reuse of modular hardware implementations. It provides automated
-composition of a DAG of CPUs and CXUs into one system. Each CXU implements
-one or more CXs. In response to a CX instruction, a CPU delegates the
-instruction to the hart's currently selected CXU.
+*Modular Hardware:* CX-compliant extensions should be implementable in
+self-contained logic known as a *CX Unit* that attaches to a CPU implementation
+using a specified *CX Unit (CXU) logic interface (CXU-LI)*. This allows the
+automated composition of a DAG of CPUs and CXUs into one system, and provides
+the advantages of reuse and portability at the logic level. Each CXU
+implements one or more CXs. In response to a CX instruction, a CPU delegates
+the instruction to the hart's currently selected CXU.
 
 ## Tenets
 
@@ -67,30 +69,30 @@ frugality, security, and longevity. In particular:
 when used with other CXs.
 
 2. *Conflict-freedom:* Any CX may use the *CX subset* of the custom-\*
-opcode instructions, without conflict with other CXs or ordinary non-CX
-custom extensions.
+opcode instructions, without conflict with other CXs or ordinary (legacy)
+non-CX custom extensions.
 
-3. *Decentralization:* Anyone may define or use a CX without coordination
+4. *Decentralization:* Anyone may define or use a CX without coordination
 with others, and without resort to a central authority.
 
-4. *Stable binaries:* CX library *binaries* compose without rewriting,
+5. *Stable binaries:* CX library *binaries* compose without rewriting,
 recompilation or relinking.
 
-5. *Composable hardware:* Adding a CXU to a system does not require
-modification of other CPUs or CXUs. A CXU *may be* implemented in a
-nonproprietary HDL such as Verilog.
+6. *Composable hardware:* Adding a CXU to a system does not require
+internal modification of CPU or CXU implementations. A CXU *may be*
+implemented in a nonproprietary HDL such as Verilog.
 
-6. *Uniformity:* of *scope:* at least: instructions may access integer
+8. *Uniformity:* of *scope:* at least: instructions may access integer
 registers and may be stateful; of *naming, discovery, versioning:*
 CX software has a uniform means to discover if specific CX or CX version
 is available.
 
-7. *Frugality:* Prefer simpler induced hardware and shorter code paths.
+9. *Frugality:* Prefer simpler induced hardware and shorter code paths.
 
-8. *Security:* The specifications include a vulnerability assessment
+10. *Security:* The specifications include a vulnerability assessment
 and do not facilitate new side channel attacks.
 
-9. *Longevity:* The specifications define how each interface may be
+11. *Longevity:* The specifications define how each interface may be
 versioned over decades, and incorporate mechanisms to improve forwards
 compatibility.
 
@@ -109,8 +111,9 @@ to CXs. b. CX-ABI: application binary interface governing disciplined
 use of CX-\*-ISA.
 
 4. *CX-HW* defines *optional* specs for: a. CXU-LI: reusable CX unit
-logic interface; b. CXU-MD: metadata format describing systems, CPUs,
-and CXUs, enabling automatic composition of CPU + CXU complexes.
+logic interface which may be extendable to a NoC; b. CXU-MD: metadata
+format describing systems, CPUs, CXUs, and NoC to enable automatic composition
+of CPU + CXU complexes.
 
 ### Acceptance criteria
 
@@ -121,6 +124,8 @@ libraries x OSs.
 ## Exclusions
 
 Not every arbitrary custom extension can be a composable extension.
+For example, the current scope excludes custom instructions
+that can alter control flow.
 
 The CX TG is focused on the minimum viable standards *enabling*
 practical composition of extensions and software. Further standards
@@ -130,13 +135,13 @@ and tools, are _out of scope_.
 
 ## Collaborations
 
-The CX framework will enable many unpriv computational extension TGs to
-provide their extension as a composable extension, with a modular
-CXU implementation that enables that extension in any CXU-LI-compliant
-CPU cores. CX multiplexing reduces the opcode and CSR impact of such
-extensions to zero, extending the life of the 32b encodings. CX discovery
-and versioning provides such extensions a uniform forwards compatible
-versioning story.
+The CX framework will enable many ongoing and future unpriv extension
+TGs to provide their extension as a composable extension. CX multiplexing
+reduces the opcode and CSR impact of such extensions to zero, extending
+the life of the 32b encodings. In addition, CX discovery and versioning
+provides such extensions a uniform forwards compatible versioning story.
+A modular CXU implementation would enable that extension in any
+CXU-LI-compliant CPU cores.
 
 ### Overlaps (probably many, more TBD)
 
