@@ -16,13 +16,13 @@ target system -- all without a central management authority.
 ## Introduction - the custom extensions reuse problem
 
 RISC-V reserves the custom-\* opcode space, enabling anyone to create
-new custom extensions and their software libraries. But RISC-V custom
-extensions are unmanaged, lacking standards or uniformity. This impairs
-extension reuse. Use of one extension in a system may preclude use
-of another, because they may have conflicting custom instructions, or
-incompatible means of extension discovery, versioning, state management,
-etc. This leads to disjoint solution silos and fragmentation of the
-RISC-V ecosystem.
+new custom extensions and their software libraries. However, composition
+of multiple extensions is impared because RISC-V custom extensions are
+unmanaged, lacking standards or uniformity;  the use of one extension in
+a system may preclude use of another extension because they may have
+conflicting custom instructions, or incompatible means of extension
+discovery, versioning, state management, etc. This leads to disjoint
+solution silos and fragmentation of the RISC-V ecosystem.
 
 ## Objectives
 
