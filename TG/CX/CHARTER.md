@@ -59,7 +59,7 @@ the instruction to the hart's currently selected CXU.
 
 ## Tenets
 
-Further to the objectives, the CX TG should be guided these tenets when
+Further to the objectives, the CX TG should be guided by these tenets when
 defining the extension: composability, conflict-freedom, decentralization,
 stable binaries, composable hardware, uniformity (of scope, naming,
 discovery, versioning, error signaling, state management, access control),
