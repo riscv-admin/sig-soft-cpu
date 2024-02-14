@@ -17,9 +17,9 @@ target system -- all without a central management authority.
 
 RISC-V reserves the custom-\* opcode space, enabling anyone to create
 new custom extensions and their software libraries. However, composition
-of multiple extensions is impared because RISC-V custom extensions are
-unmanaged, lacking standards or uniformity;  the use of one extension in
-a system may preclude use of another extension because they may have
+of multiple extensions is unobtainable because RISC-V custom extensions are
+unmanaged, lacking standards or uniformity; the use of one extension in
+a system often precludes use of another extension because they may have
 conflicting custom instructions, or incompatible means of extension
 discovery, versioning, state management, etc. This leads to disjoint
 solution silos and fragmentation of the RISC-V ecosystem.
@@ -47,15 +47,16 @@ state contexts, per CX, per system, with an arbitrary, dynamic, software
 managed hart-to-CX-context mapping. A privileged access control mechanism
 will efficiently grant/deny access to CX contexts by less privileged
 software. In such systems, stateful CXs require a uniform method for
-OS CX context management such as *CX Context CXRs*.
+OS CX context management.
 
 *Modular Hardware:* CX-compliant extensions should be implementable in
 self-contained logic known as a *CX Unit* that attaches to a CPU implementation
-using a specified *CX Unit (CXU) logic interface (CXU-LI)*. This allows the
-automated composition of a DAG of CPUs and CXUs into one system, and provides
-the advantages of reuse and portability at the logic level. Each CXU
+using a specified *CX Unit (CXU) logic interface (CXU-LI)*.  Each CXU
 implements one or more CXs. In response to a CX instruction, a CPU delegates
-the instruction to the hart's currently selected CXU.
+the instruction to the hart's currently selected CX within the CXU.  In
+general, a DAG of CPUs and CXUs can be automatically composed in a single
+system, providing the advantages of reuse and portability at the logic level. 
+
 
 ## Tenets
 
@@ -72,27 +73,27 @@ when used with other CXs.
 opcode instructions, without conflict with other CXs or ordinary (legacy)
 non-CX custom extensions.
 
-4. *Decentralization:* Anyone may define or use a CX without coordination
+3. *Decentralization:* Anyone may define or use a CX without coordination
 with others, and without resort to a central authority.
 
-5. *Stable binaries:* CX library *binaries* compose without rewriting,
+4. *Stable binaries:* CX library *binaries* compose without rewriting,
 recompilation or relinking.
 
-6. *Composable hardware:* Adding a CXU to a system does not require
+5. *Composable hardware:* Adding a CXU to a system does not require
 internal modification of CPU or CXU implementations. A CXU *may be*
 implemented in a nonproprietary HDL such as Verilog.
 
-8. *Uniformity:* of *scope:* at least: instructions may access integer
+6. *Uniformity:* of *scope:* at least: instructions may access integer
 registers and may be stateful; of *naming, discovery, versioning:*
 CX software has a uniform means to discover if specific CX or CX version
 is available.
 
-9. *Frugality:* Prefer simpler induced hardware and shorter code paths.
+7. *Frugality:* Prefer simpler induced hardware and shorter code paths.
 
-10. *Security:* The specifications include a vulnerability assessment
+8. *Security:* The specifications include a vulnerability assessment
 and do not facilitate new side channel attacks.
 
-11. *Longevity:* The specifications define how each interface may be
+9. *Longevity:* The specifications define how each interface may be
 versioned over decades, and incorporate mechanisms to improve forwards
 compatibility.
 
