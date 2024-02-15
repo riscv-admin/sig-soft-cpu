@@ -54,7 +54,7 @@ self-contained logic known as a *CX Unit* that attaches to a CPU implementation
 using a specified *CX Unit (CXU) logic interface (CXU-LI)*.  Each CXU
 implements one or more CXs. In response to a CX instruction, a CPU delegates
 the instruction to the hart's currently selected CX within the CXU.  In
-general, a DAG of CPUs and CXUs can be automatically composed in a single
+general, a DAG of CPUs and CXUs should be automatically composable in a single
 system, providing the advantages of reuse and portability at the logic level. 
 
 
