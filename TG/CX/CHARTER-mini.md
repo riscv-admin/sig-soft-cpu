@@ -44,7 +44,7 @@ extension(s) x extension librar(y/ies) x OS combinations.
 
 ## Exclusions
 
-Not every arbitrary custom extension can be a composable extension.  
+Not every arbitrary custom extension can be a composable extension.
 For example, the current scope excludes custom instructions
 that can alter control flow. Hence, the first release of CX will
 likely support only unprivileged computational instructions.
