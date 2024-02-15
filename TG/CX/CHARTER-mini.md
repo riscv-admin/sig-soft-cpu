@@ -13,34 +13,39 @@ supply of 32b opcodes, this opcode space can also be shared by future RVI ISA
 extensions. This will solve the problem of limited capacity remaining within
 the 32b opcode space.
 
-The Composable Extensions (CX) Task Group(s) will specify ISA extensions
-(within the Custom Opcode space), software (API, ABI) and hardware interfaces.
-This will enable harmonious, robust and conflict-free composition of multiple
-independently authored composable custom extensions, alongside legacy custom
-instructions or extensions, in one RISC-V system. Multiple harts will be able
-to share the same physical hardware module that implements one or more CX
-instances.
+This Charter governs the TG for a Composable Extensions (CX) framework enabling
+*robust composition* of multiple independently authored composable custom extensions,
+alongside legacy custom extensions, assembled conflict-free in one RISC-V system.
+Multiple harts will also be able to share the same physical hardware module that
+implements one or more CX extensions.
 
-To do this, CX will multiplex the custom opcode space and adopt common software
-and hardware interop interfaces.  The CX specification will be guided by and
-consider the impact of these design tenets: composability, conflict-freedom,
-decentralization, stable binaries, composable and reusable hardware modules,
-uniformity (of scope, naming, discovery, versioning, error signaling, state
-context management, access control), frugality, security, and longevity.  In
-particular, this should be done without a central management authority.
+By multiplexing the custom opcode space, and adopting common software
+and hardware interop interfaces, CX enables *uniform* extension naming,
+discovery and versioning, error handling, state context management, extension
+hardware reuse, and stable software binaries for each target system -- all
+without a central management authority.
+
+The TG will be guided by and consider the impact of these design tenets:
+composability, conflict-freedom, decentralization, stable binaries,
+composable and reusable hardware modules, uniformity (of scope, naming,
+discovery, versioning, error signaling, state context management, access
+control, frugality, security, and longevity.
 
 ### Deliverables
 
-The output of the TG is expected to include:
+TThe CX Task Group will specify ISA extensions (within the Custom Opcode space),
+software (API, ABI) and hardware interfaces. In particular, the TG is expected
+to produce specifications for:
+
 1. CX Multiplexing
-1. CX State Contexts, including Supervisor/User modes
-1. CX C-API, C++-API, and Runtime System
-1. (optional) CX Hardware Interface
+2. CX State Contexts, including Supervisor/User modes
+3. CX C-API, C++-API, and Runtime System
+4. (optional) CX Hardware Interface
 
 ### Acceptance criteria
 
 A proof-of-concept implementing each deliverable will involve multiple hart(s) x
-extension(s) x extension librar(y/ies) x OS combinations.  
+extension(s) x extension library(ies) x OS combinations.  
 
 ## Exclusions
 
