@@ -44,10 +44,10 @@ extension(s) x extension librar(y/ies) x OS combinations.
 
 ## Exclusions
 
-Not every arbitrary custom extension can be a composable extension.  In
-particular, the first release of CX will likely support only unprivileged
-computational instructions. In particular, control-flow instructions will
-likely be excluded.
+Not every arbitrary custom extension can be a composable extension.  
+For example, the current scope excludes custom instructions
+that can alter control flow. Hence, the first release of CX will
+likely support only unprivileged computational instructions.
 
 Load/store instructions that operate on main memory, while important, add a
 level of complexity that may require it to be deferred until a successive
