@@ -6,13 +6,13 @@ is no common programming model or API for discovering, using, and
 managing such extensions. This leads to disjoint solution silos and
 ecosystem fragmentation. This TG will fix this.
 
-The TG will specify an ISA extension (CX ISA) plus interop interface
+The TG will specify ISA extension(s) (CX ISA) plus interop interface
 standards (CX API, CX ABI, and CX Unit logic interface (CXU-LI)) that
 enable practical reuse, within a system, of multiple, independently
 authored composable custom extensions (CXs), CX libraries, and CX unit
-cores, remaining backwards compatible with legacy custom extensions.
+modules, remaining backwards compatible with legacy custom extensions.
 
-* *CX ISA* extension provides CX multiplexing (muxing), CX access control,
+* *CX ISA* extension(s) provide CX multiplexing (muxing), CX access control,
   and CX state context management.
 
   * *CX muxing* enables multiple CXs to coexist within a system, conflict free;
@@ -69,7 +69,7 @@ libraries x OSs.
 
 ## Exclusions
 
-Not every arbitrary custom extension can be a composable extension.
+Not every arbitrary custom extension can be a composable extension!
 
 The CX TG is focused on the minimum set of standards *enabling*
 practical composition of extensions and software. Further standards
