@@ -20,10 +20,10 @@ cores, remaining backwards compatible with legacy custom extensions.
     that CX’s custom instructions and accessing its custom CSRs.
   
   * *CX access control* enables priv code to grant/deny unpriv code access
-    to specific CXs / state contexts.
+    to specific CX state contexts.
   
-  * *CX state context management* enables an OS to virtualize and multiprogram
-    any CX / state context.
+  * *CX state context management* enables an OS to save, reload, and manage
+    any CX state context.
 
 * *CX API* provides CX libraries with a uniform CX programming model,
   including CX naming, discovery, versioning, state management, and
