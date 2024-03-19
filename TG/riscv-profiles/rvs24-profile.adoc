@@ -1,7 +1,7 @@
 [[riscv-doc-template]]
 :description: Short, text description of spect…
 :company: RISC-V
-:revdate: May 10, 2023
+:revdate: March 18, 2024
 :revnumber: 0.1-draft
 :revremark: This document is in Development stage.  Everything could change before ratification.
 :url-riscv: http://riscv.org
@@ -42,7 +42,7 @@ endif::[]
 
 :sectnums!:
 
-= RVB23 Profile
+= RVS24 Profile
 
 //: This is the Preamble
 
@@ -54,63 +54,93 @@ Do not use for implementations.  Assume everything can change.
 
 == Introduction
 
-This document captures the current proposal for the RVB23 profile
-family. RVB23 is intended to be the first major release of the RVB
+This document captures the current proposal for the RVS24 profile
+family. RVS24 is intended to be the first major release of the RVS
 series of RISC-V Application Processor Profile.
 
-RVB profiles are intended to be used for customized 64-bit application
-processors that will run rich OS stacks, but usually as a custom build
-of standard OS source-code distributions.  The approach is to provide
-a large guaranteed set of relatively inexpensive and/or widely
-beneficial features but allow optionality for more expensive and/or
-more targeted extensions.
+RVS profiles are intended to be used for soft CPU designs as commonly
+implemented on an FPGA.  In addition to generally being more resource
+constrained than typical ASIC designs, soft CPUs feature unique
+resource and design tradeoffs compared to traditional designs.
 
-Unlike the RVA profiles, it is explicitly a non-goal of RVB profiles
-to provide a single standard ISA interface supporting a wide variety
-of binary kernel and binary application software distributions.
-However, individual software ecosystems may build upon RVB profiles to
-produce a more targeted standard interface for a certain market.
+The RVS profile family is intended to run customized and/or embedded
+variations of supervisor mode operating systems.  The RVS profile
+family includes 32-bit and 64-bit profiles.  Like those in the RVB
+profile family, the RVS profiles are explicitly not attempting to
+ensure binary compatibility for kernel, operating system, and
+application distributions.  Rather, the RVS profile family is
+targeting source level compatibility, and the extension mandates and
+options reflect the ability to select options at that level.
 
-== RVB23 Profiles
+== RVS24 Profiles
 
-Only user-mode (RVB23U64) and supervisor-mode (RVB23S64) profiles are
-specified in this family.
+User-mode and supervisor-mode profiles, for both 32-bit and 64-bit,
+are specified in this family.
 
-=== RVB23U64 Profile
+=== RVS24U64 Profiles
 
-The RVB23U64 profile specifies the ISA features available to user-mode
-execution environments in 64-bit RVB applications processors.  This is
-the most important profile within the application processor family in
-terms of the amount of software that targets this profile.
+The RVS24U64 profile specifies the ISA features available to user-mode
+execution environments in 64-bit RVS applications processors.
 
-==== RVB23U64 Mandatory Base
+==== RVS24U64 Mandatory Base
 
-RV64I is the mandatory base ISA for RVB23U64 and is little-endian.  As
+RV64I is the mandatory base ISA for RVS24U64 and is little-endian.  As
 per the unprivileged architecture specification, the `ecall`
 instruction causes a requested trap to the execution environment.
 
-==== RVB23U64 Mandatory Extensions
+==== RVS24U64 Mandatory Extensions
 
-The following mandatory extensions are also in RVA22U64.
+The following mandatory extensions are also in RVB23U64.
 
 - *M* Integer multiplication and division.
 - *A* Atomic instructions.
-- *F* Single-precision floating-point instructions.
-- *D* Double-precision floating-point instructions.
-- *C* Compressed Instructions.
-- *Zicsr*  CSR instructions.  These are implied by presence of F.
+- *Zicsr*  CSR instructions.
 - *Zicntr* Base counters and timers.
-- *Zihpm* Hardware performance counters.
 - *Ziccif* Main memory regions with both the cacheability and
   coherence PMAs must support instruction fetch, and any instruction
   fetches of naturally aligned power-of-2 sizes up to min(ILEN,XLEN)
-  (i.e., 32 bits for RVB23) are atomic.
+  (i.e., 32 bits for RVS24) are atomic.
 - *Ziccrse* Main memory regions with both the cacheability and coherence PMAs must support RsrvEventual.
-- *Ziccamoa* Main memory regions with both the cacheability and coherence PMAs must support AMOArithmetic.
 - *Zicclsm* Misaligned loads and stores to main memory regions with both the
   cacheability and coherence PMAs must be supported.
+
+NOTE: It is possible, and may be common, that Zicclsm is emulated at a
+higher privilege level and therefore provides very slow performance.
+
 - *Za64rs* Reservation sets are contiguous, naturally aligned, and a
    maximum of 64 bytes.
+
+==== RVS24U64 Optional Extensions
+
+RVS24U64 has the profile options listed below.
+
+===== Localized Options
+
+The following extensions are localized options in both RVB23U64 and RVS24U64:
+
+- *Zvbc* Vector carryless multiply.
+- *Zvkng* Vector Crypto NIST Algorithms including GHASH.
+- *Zvksg* Vector Crypto ShangMi Algorithms including GHASH.
+- *Zvkg* Vector GHASH instructions
+- *Zvknc* Vector Crypto NIST Algorithms with carryless multiply
+- *Zvksc* Vector Crypto ShangMi Algorithms with carryless multiply
+- *Zkn* Scalar Crypto NIST Algorithms.
+- *Zks* Scalar Crypto ShangMi Algorithms.
+
+===== Development Options
+
+There are no development options in RVS24U64.
+
+===== Expansion Options
+
+The following extensions are mandatory in RVB23U64 but are expansion
+options in RVS24U64:
+
+- *F* Single-precision floating-point instructions.
+- *D* Double-precision floating-point instructions.
+- *C* Compressed Instructions.
+- *Zihpm* Hardware performance counters.
+- *Ziccamoa* Main memory regions with both the cacheability and coherence PMAs must support AMOArithmetic.
 - *Zihintpause* Pause instruction.
 - *Zba* Address computation.
 - *Zbb* Basic bit manipulation.
@@ -121,9 +151,6 @@ address space.
 - *Zicbop* Cache-Block Prefetch Operations.
 - *Zicboz* Cache-Block Zero Operations.
 - *Zkt* Data-independent execution time.
-
-The following mandatory extensions are also present in RVA23U64:
-
 - *Zihintntl* Non-temporal locality hints.
 - *Zicond* Conditional Zeroing instructions.
 - *Zimop* Maybe Operations.
@@ -132,41 +159,8 @@ The following mandatory extensions are also present in RVA23U64:
 - *Zfa* Additional scalar FP instructions.
 - *Zawrs* Wait on reservation set.
 
-==== RVB23U64 Optional Extensions
-
-RVB23U64 has 18 profile options listed below.
-
-===== Localized Options
-
-The following extensions are localized options in both RVA23U64 and RVB23U64:
-
-- *Zvbc* Vector carryless multiply.
-- *Zvkng* Vector Crypto NIST Algorithms including GHASH.
-- *Zvksg* Vector Crypto ShangMi Algorithms including GHASH.
-
-The following extensions options are localized options in RVB23U64 but
-are not present in RVA23U64:
-
-- *Zvkg* Vector GHASH instructions
-- *Zvknc* Vector Crypto NIST Algorithms with carryless multiply
-- *Zvksc* Vector Crypto ShangMi Algorithms with carryless multiply
-
-NOTE: RVA profiles mandate the higher-performing but more expensive
-GHASH options when adding vector crypto.  To reduce implementation cost, RVB
-profiles also allow these carryless multiply options (Zvknc and Zvksc)
-to implement GCM efficiently, with GHASH available as a separate
-option.
-
-- *Zkn* Scalar Crypto NIST Algorithms.
-- *Zks* Scalar Crypto ShangMi Algorithms.
-
-NOTE: RVA23 profiles drop support for scalar crypto as an option, as
-the vector extension is now mandatory in RVA23.  RVB23 profiles
-support scalar crypto, as the vector extension is optional in RVB23.
-
-===== Development Options
-
-The following are new development options intended to become mandatory in RVB24U64:
+The following are development options in RVB23U64 but are expansion
+options in RVS24U64:
 
 - *Zabha* Byte and Halfword Atomic Memory Operations 
 - *Zacas* Compare-and-swap
@@ -174,89 +168,69 @@ The following are new development options intended to become mandatory in RVB24U
   must provide AMOCASQ level PMA support.
 - *Zama16b* Misaligned loads, stores, and AMOs to main memory regions that do not cross a naturally aligned 16-byte boundary are atomic.
 
-===== Expansion Options
-
-The following extensions are mandatory in RVA23U64 but are expansion
-options in RVB23U64:
+The following extensions are expansion options in both RVB23U64 and
+RVS24U64:
 
 - *Zfhmin* Half-Precision Floating-point transfer and convert.
-
 - *V* Vector Extension.
-
-NOTE: Unclear if other Zve* extensions should also be supported in RVB.
-
 - *Zvfhmin* Vector FP16 conversion instructions.
 - *Zvbb* Vector bitmanip extension.
 - *Zvkt* Vector data-independent execution time.
-
-The following extensions are expansion options in both RVA23U64 and RVB23U64:
-
 - *Zfh* Scalar Half-Precision Floating-Point (FP16).
 - *Zbc* Scalar carryless multiply.
 - *Zvfh* Vector half-precision floating-point (FP16).
 - *Zfbfmin* Scalar BF16 FP conversions.
 - *Zvfbfmin* Vector BF16 FP conversions.
 - *Zvfbfwma* Vector BF16 widening mul-add.
-
-The following are RVA23U64 development options as they are intended to
-become mandatory in RVA24U64 profile, but are considered expansion
-options for RVB23U64 as they are not intended to be made mandatory in
-RVB profiles:
-
 - *Zvbc* Vector carryless multiply.
 
 ===== Transitory Options
 
-There are no transitory options in RVB23U64.
+There are no transitory options in RVS24U64.
 
-==== RVB23U64 Recommendations
+==== RVS24U64 Recommendations
 
 Implementations are strongly recommended to raise illegal-instruction
 exceptions on attempts to execute unimplemented opcodes.
 
-=== RVB23S64 Profile
+=== RVS24S64 Profile
 
-The RVB23S64 profile specifies the ISA features available to a
+The RVS24S64 profile specifies the ISA features available to a
 supervisor-mode execution environment in 64-bit applications
-processors.  RVB23S64 is based on privileged architecture version
+processors.  RVS24S64 is based on privileged architecture version
 1.13.
 
 NOTE: Priv 1.13 is still being defined.
 
-==== RVB23S64 Mandatory Base
+==== RVS24S64 Mandatory Base
 
-RV64I is the mandatory base ISA for RVB23S64 and is little-endian.
+RV64I is the mandatory base ISA for RVS24S64 and is little-endian.
 The `ecall` instruction operates as per the unprivileged architecture
 specification.  An `ecall` in user mode causes a contained trap to
 supervisor mode.  An `ecall` in supervisor mode causes a requested
 trap to the execution environment.
 
-==== RVB23S64 Mandatory Extensions
+==== RVS24S64 Mandatory Extensions
 
 The following unprivileged extensions are mandatory:
 
-- The RVB23S64 mandatory unprivileged extensions include all the
-mandatory unprivileged extensions in RVB23U64.
+- The RVS24S64 mandatory unprivileged extensions include all the
+mandatory unprivileged extensions in RVS24U64.
 
 - *Zifencei*  Instruction-Fetch Fence.
 
 NOTE: Zifencei is mandated as it is the only standard way to support
-instruction-cache coherence in RVB23 application processors.  A new
+instruction-cache coherence in RVS24 application processors.  A new
 instruction-cache coherence mechanism is under development
 (tentatively named Zjid) which might be added as an option in the
 future.
 
 The following privileged extensions are mandatory, and are also
-mandatory in RVA23S64.
+mandatory in RVB23S64.
 
 - *Ss1p13*  Supervisor Architecture version 1.13.
 
 NOTE: Ss1p13 supersedes Ss1p12 but is not yet ratified.
-
-- *Svnapot* NAPOT Translation Contiguity
-
-NOTE: Svnapot is very low cost to provide, so is made mandatory even
-in RVB.
 
 - *Svbare* The `satp` mode Bare must be supported.
 
@@ -279,44 +253,46 @@ in RVB.
   For illegal-instruction exceptions, stval must be written with the
   faulting instruction.
 
+- *Sstc* supervisor-mode timer interrupts.
+
+- *Ssu64xl* `sstatus.UXL` must be capable of holding the value 2
+(i.e., UXLEN=64 must be supported).
+
+If *Zihpm* is implemented, the following extensions are mandatory:
+
 - *Sscounterenw* For any hpmcounter that is not read-only zero, the
    corresponding bit in scounteren must be writable.
+
+- *Sscofpmf* Count Overflow and Mode-Based Filtering.
+
+==== RVS24S64 Optional Extensions
+
+RVS24S64 has the same unprivileged options as RVS24U64.
+
+===== Localized Options
+
+There are no privileged localized options in RVS24S64.
+
+===== Development Options
+
+There are no privileged development options in RVS24S64.
+
+===== Expansion Options
+
+The following extensions are mandatory in RVB23U64 but are expansion
+options in RVS24U64:
+
+- *Svnapot* NAPOT Translation Contiguity
 
 - *Svpbmt* Page-Based Memory Types
 
 - *Svinval* Fine-Grained Address-Translation Cache Invalidation
 
-- *Sstc* supervisor-mode timer interrupts.
-
-- *Sscofpmf* Count Overflow and Mode-Based Filtering.
-
-- *Ssu64xl* `sstatus.UXL` must be capable of holding the value 2
-(i.e., UXLEN=64 must be supported).
-
-==== RVB23S64 Optional Extensions
-
-RVB23S64 has the same unprivileged options as RVB23U64,
-
-RVB23S64 has the same six privileged options (Sv48, Sv57, Svadu,
-Sscofpmf, Zkr, H) as RVA23S64.
-
-===== Localized Options
-
-There are no privileged localized options in RVB23S64.
-
-===== Development Options
-
-There are no privileged development options in RVB23S64.
-
-===== Expansion Options
-
-The following privileged expansion options are mandatory in RVA22S64 but options in RVB23S64:
+The following privileged expansion options in RVB23S64 are also
+options in RVS24S64:
 
 - *Ssnpm* Pointer masking, with `senvcfg.PME` supporting at minimum,
    settings PMLEN=0 and PMLEN=7.
-
-The following hypervisor extension and mandates were also in RVA22S64
-and are available as an expansion option in RVB23S64:
 
 - *H* The hypervisor extension.
 
@@ -347,7 +323,7 @@ When the hypervisor extension is implemented, the following are also mandatory:
   (Ssnpm) is supported then `henvcfg.PME` must support at minimum,
   settings PMLEN=0 and PMLEN=7.
 
-The following privileged expansion options are also present in RVA23S64:
+The following privileged expansion options are also present in RVB23S64:
 
 - *Sv48* Page-Based 48-bit Virtual-Memory System.
 
@@ -356,8 +332,6 @@ The following privileged expansion options are also present in RVA23S64:
 - *Svadu* Hardware A/D bit updates.
 
 - *Zkr*  Entropy CSR.
-
-- *Svadu* Hardware A/D bit updates.
 
 - *Sdext* Debug triggers
 
@@ -373,10 +347,113 @@ spaces or CSRs.
 - *Svvptc* Transitions from invalid to valid PTEs will be visible in
    bounded time without an explicit SFENCE.
 
-==== RVB23S64 Recommendations
+==== RVS24S64 Recommendations
 
 - Implementations are strongly recommended to raise illegal-instruction
   exceptions when attempting to execute unimplemented opcodes.
+
+=== RVS24U32 Profile
+
+The RVS24U32 profile specifies the ISA features available to user-mode
+execution environments in 32-bit RVS applications processors.
+
+==== RVS24U32 Mandatory Base
+
+RV32I is the mandatory base ISA for RVS24U32 and is little-endian.  As
+per the unprivileged architecture specification, the `ecall`
+instruction causes a requested trap to the execution environment.
+
+==== RVS24U32 Mandatory Extensions
+
+RVS24U32 has the same mandatory extensions as RVS24U64.
+
+==== RVS24U32 Optional Extensions
+
+RVS24U32 has the same optional extensions as RVS24U64.
+
+=== RVS24S32 Profile
+
+The RVS24S32 profile specifies the ISA features available to a
+supervisor-mode execution environment in 32-bit applications
+processors.  RVS24S32 is based on privileged architecture version
+1.13.
+
+NOTE: Priv 1.13 is still being defined.
+
+==== RVS24S32 Mandatory Base
+
+RV32I is the mandatory base ISA for RVS24S32 and is little-endian.
+The `ecall` instruction operates as per the unprivileged architecture
+specification.  An `ecall` in user mode causes a contained trap to
+supervisor mode.  An `ecall` in supervisor mode causes a requested
+trap to the execution environment.
+
+==== RVS24S32 Mandatory Extensions
+
+The following unprivileged extensions are mandatory:
+
+- The RVS24S32 mandatory unprivileged extensions include all the
+mandatory unprivileged extensions in RVS24U32.
+
+- *Zifencei*  Instruction-Fetch Fence.
+
+NOTE: Zifencei is mandated as it is the only standard way to support
+instruction-cache coherence in RVS24 application processors.  A new
+instruction-cache coherence mechanism is under development
+(tentatively named Zjid) which might be added as an option in the
+future.
+
+The following privileged extensions are mandatory, and are also
+mandatory in RVB23S32.
+
+- *Ss1p13*  Supervisor Architecture version 1.13.
+
+NOTE: Ss1p13 supersedes Ss1p12 but is not yet ratified.
+
+- *Svbare* The `satp` mode Bare must be supported.
+
+- *Sv32* Page-Based 32-bit Virtual-Memory System.
+
+- *Svade* Page-fault exceptions are raised when a page is accessed
+   when A bit is clear, or written when D bit is clear.
+
+- *Ssccptr* Main memory regions with both the cacheability and
+   coherence PMAs must support hardware page-table reads.
+
+- *Sstvecd* `stvec.MODE` must be capable of holding the value 0
+  (Direct).  When `stvec.MODE=Direct`, `stvec.BASE` must be capable of
+  holding any valid four-byte-aligned address.
+
+- *Sstvala* stval must be written with the faulting virtual address
+  for load, store, and instruction page-fault, access-fault, and
+  misaligned exceptions, and for breakpoint exceptions other than
+  those caused by execution of the EBREAK or C.EBREAK instructions.
+  For illegal-instruction exceptions, stval must be written with the
+  faulting instruction.
+
+- *Sstc* supervisor-mode timer interrupts.
+
+- *Ssu32xl* `sstatus.UXL` must be capable of holding the value 1
+(i.e., UXLEN=32 must be supported).
+
+If *Zihpm* is implemented, the following extensions are mandatory:
+
+- *Sscounterenw* For any hpmcounter that is not read-only zero, the
+   corresponding bit in scounteren must be writable.
+
+- *Sscofpmf* Count Overflow and Mode-Based Filtering.
+
+NOTE: The mandatory extensions for RVS24S32 are the same as those for
+RVS24S64 with the following exceptions: Sv32 and Ssu32xl are
+mandatory; Sv39 and Sssu64xl are not mandatory nor available as
+options.
+
+==== RVS24S64 Optional Extensions
+
+RVS24S32 has the same unprivileged options as RVS24U32.
+
+RVS24S32 has the same privileged optional extensions as RVS24S64, with
+the exception that Svpbmt, Sv48 and Sv57 are not available as options.
 
 == Glossary of ISA Extensions
 
