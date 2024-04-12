@@ -452,7 +452,7 @@ RVS24S64 with the following exceptions: Sv32 and Ssu32xl are
 mandatory; Sv39 and Sssu64xl are not mandatory nor available as
 options.
 
-==== RVS24S64 Optional Extensions
+==== RVS24S32 Optional Extensions
 
 RVS24S32 has the same unprivileged options as RVS24U32.
 
