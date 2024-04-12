@@ -371,6 +371,10 @@ RVS24U32 has the same mandatory extensions as RVS24U64.
 
 RVS24U32 has the same optional extensions as RVS24U64.
 
+==== RVS24U32 Recommendations
+
+RVS24U32 has the same recommendations as RVS24U64.
+
 === RVS24S32 Profile
 
 The RVS24S32 profile specifies the ISA features available to a
@@ -454,6 +458,10 @@ RVS24S32 has the same unprivileged options as RVS24U32.
 
 RVS24S32 has the same privileged optional extensions as RVS24S64, with
 the exception that Svpbmt, Sv48 and Sv57 are not available as options.
+
+==== RVS24S32 Recommendations
+
+RVS24S32 has the same recommendations as RVS24S64.
 
 == Glossary of ISA Extensions
 
