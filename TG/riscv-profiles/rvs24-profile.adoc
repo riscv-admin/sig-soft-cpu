@@ -56,7 +56,7 @@ Do not use for implementations.  Assume everything can change.
 
 This document captures the current proposal for the RVS24 profile
 family. RVS24 is intended to be the first major release of the RVS
-series of RISC-V Application Processor Profile.
+series of RISC-V Application Soft Processor Profile.
 
 RVS profiles are intended to be used for soft CPU designs as commonly
 implemented on an FPGA.  In addition to generally being more resource
