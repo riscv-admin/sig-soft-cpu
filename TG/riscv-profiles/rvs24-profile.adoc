@@ -162,7 +162,7 @@ address space.
 The following are development options in RVB23U64 but are expansion
 options in RVS24U64:
 
-- *Zabha* Byte and Halfword Atomic Memory Operations 
+- *Zabha* Byte and Halfword Atomic Memory Operations
 - *Zacas* Compare-and-swap
 - *Ziccamoc* Main memory regions with both the cacheability and coherence PMAs
   must provide AMOCASQ level PMA support.
@@ -176,6 +176,8 @@ RVS24U64:
 - *Zvfhmin* Vector FP16 conversion instructions.
 - *Zvbb* Vector bitmanip extension.
 - *Zvkt* Vector data-independent execution time.
+- *Supm* Pointer masking, with the execution environment providing a means to
+   select PMLEN=0 and PMLEN=7 at minimum.
 - *Zfh* Scalar Half-Precision Floating-Point (FP16).
 - *Zbc* Scalar carryless multiply.
 - *Zvfh* Vector half-precision floating-point (FP16).
@@ -293,6 +295,9 @@ options in RVS24S64:
 
 - *Ssnpm* Pointer masking, with `senvcfg.PME` supporting at minimum,
    settings PMLEN=0 and PMLEN=7.
+
+- *Sspm* Supervisor-mode pointer masking, with the supervisor execution
+   environment providing a means to select PMLEN=0 and PMLEN=7 at minimum.
 
 - *H* The hypervisor extension.
 
@@ -547,7 +552,7 @@ Instruction Set Manual; the hyperlinks lead to their separate specifications.
 - *Zicclsm*: Main memory supports misaligned loads/stores
 - *Za64rs*: Reservation set size of at most 64 bytes
 - *Za128rs*: Reservation set size of at most 128 bytes
-- *Zic64b*: Cache block size isf 64 bytes
+- *Zic64b*: Cache block size is 64 bytes
 - *Svbare*: Bare mode virtual-memory translation supported
 - *Svade*: Raise exceptions on improper A/D bits
 - *Ssccptr*: Main memory supports page table reads
@@ -562,4 +567,3 @@ Instruction Set Manual; the hyperlinks lead to their separate specifications.
 - *Shvstvecd*: `vstvec` supports Direct mode
 - *Shvsatpa*: `vsatp` supports all modes supported by `satp`
 - *Shgatpa*: SvNNx4 mode supported for all modes supported by `satp`, as well as Bare
-
