@@ -1,8 +1,8 @@
 [[riscv-doc-template]]
 :description: Short, text description of spect…
 :company: RISC-V
-:revdate: October 2, 2023
-:revnumber: 0.3-draft
+:revdate: March 22, 2024
+:revnumber: 0.5-draft
 :revremark: This document is in Development stage.  Everything could change before ratification.
 :url-riscv: http://riscv.org
 :doctype: book
@@ -42,7 +42,7 @@ endif::[]
 
 :sectnums!:
 
-= RVA23 Profile
+= RVA23 Profiles
 
 //: This is the Preamble
 
@@ -52,13 +52,7 @@ endif::[]
 Do not use for implementations.  Assume everything can change.
 ====
 
-== Introduction
-
-This document captures the current proposal for the RVA23 profile
-family.
-
-RVA23 is not intended to be a major release of the RISC-V Application
-Processor Profiles.
+include::rva-profile-overview-body.adoc[]
 
 == RVA23 Profiles
 
@@ -145,6 +139,9 @@ NOTE: V was optional in RVA22U64.
 - *Zfa* Additional scalar FP instructions.
 
 - *Zawrs* Wait on reservation set.
+
+- *Supm* Pointer masking, with the execution environment providing a means to
+   select PMLEN=0 and PMLEN=7 at minimum.
 
 ==== RVA23U64 Optional Extensions
 
@@ -363,6 +360,9 @@ spaces or CSRs.
 - *Svvptc* Transitions from invalid to valid PTEs will be visible in
    bounded time without an explicit SFENCE.
 
+- *Sspm* Supervisor-mode pointer masking, with the supervisor execution
+   environment providing a means to select PMLEN=0 and PMLEN=7 at minimum.
+
 ===== Transitory Options
 
 There are no privileged transitory options in RVA23S64.
@@ -458,7 +458,7 @@ Instruction Set Manual; the hyperlinks lead to their separate specifications.
 - *Zama16b*: Misaligned loads, stores, and AMOs to main memory regions that do not cross a naturally aligned 16-byte boundary are atomic.
 - *Za64rs*: Reservation set size of at most 64 bytes
 - *Za128rs*: Reservation set size of at most 128 bytes
-- *Zic64b*: Cache block size isf 64 bytes
+- *Zic64b*: Cache block size is 64 bytes
 - *Svbare*: Bare mode virtual-memory translation supported
 - *Svade*: Raise exceptions on improper A/D bits
 - *Ssccptr*: Main memory supports page table reads

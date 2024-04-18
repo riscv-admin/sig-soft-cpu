@@ -1,8 +1,8 @@
 [[riscv-doc-template]]
 :description: Short, text description of spect…
 :company: RISC-V
-:revdate: May 10, 2023
-:revnumber: 0.1-draft
+:revdate: March 22, 2024
+:revnumber: 0.2-draft
 :revremark: This document is in Development stage.  Everything could change before ratification.
 :url-riscv: http://riscv.org
 :doctype: book
@@ -42,7 +42,7 @@ endif::[]
 
 :sectnums!:
 
-= RVB23 Profile
+= RVB23 Profiles
 
 //: This is the Preamble
 
@@ -188,6 +188,8 @@ NOTE: Unclear if other Zve* extensions should also be supported in RVB.
 - *Zvfhmin* Vector FP16 conversion instructions.
 - *Zvbb* Vector bitmanip extension.
 - *Zvkt* Vector data-independent execution time.
+- *Supm* Pointer masking, with the execution environment providing a means to
+   select PMLEN=0 and PMLEN=7 at minimum.
 
 The following extensions are expansion options in both RVA23U64 and RVB23U64:
 
@@ -314,6 +316,9 @@ The following privileged expansion options are mandatory in RVA22S64 but options
 
 - *Ssnpm* Pointer masking, with `senvcfg.PME` supporting at minimum,
    settings PMLEN=0 and PMLEN=7.
+
+- *Sspm* Supervisor-mode pointer masking, with the supervisor execution
+   environment providing a means to select PMLEN=0 and PMLEN=7 at minimum.
 
 The following hypervisor extension and mandates were also in RVA22S64
 and are available as an expansion option in RVB23S64:
@@ -462,7 +467,7 @@ Instruction Set Manual; the hyperlinks lead to their separate specifications.
 - *Zicclsm*: Main memory supports misaligned loads/stores
 - *Za64rs*: Reservation set size of at most 64 bytes
 - *Za128rs*: Reservation set size of at most 128 bytes
-- *Zic64b*: Cache block size isf 64 bytes
+- *Zic64b*: Cache block size is 64 bytes
 - *Svbare*: Bare mode virtual-memory translation supported
 - *Svade*: Raise exceptions on improper A/D bits
 - *Ssccptr*: Main memory supports page table reads
