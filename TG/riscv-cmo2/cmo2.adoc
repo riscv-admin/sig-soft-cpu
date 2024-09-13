@@ -25,8 +25,10 @@ operation into the following classes:
 
 This document introduces a base set of CMO ISA extensions that operate
 specifically on cache blocks or the memory locations corresponding to a cache
-block; these are known as _cache-block operation_ (or _CBO_) instructions. Each
-of the above classes of instructions represents an extension in this
+block; these are known as _cache-block operation_ (or _CBO_) instructions.
+#It also introduces a CMO ISA extension that operates specifically on cache indices;
+these are known as _cache-index operation_ (or _CIO_) instructions.#
+Each of the above classes of instructions represents an extension in this
 specification:
 
 * The _Zicbom_ extension defines a set of cache-block management instructions:
@@ -34,6 +36,8 @@ specification:
 * The _Zicboz_ extension defines a cache-block zero instruction: `CBO.ZERO`
 * The _Zicbop_ extension defines a set of cache-block prefetch instructions:
   `PREFETCH.R`, `PREFETCH.W`, and `PREFETCH.I`
+* #The _Ziciom_ extension defines a set of cache-index operation instructions that operate on cache indices:
+  `CIO.INVAL`, `CIO.CLEAN`,  and `CIO.FLUSH`#
 
 The execution behavior of the above instructions is also modified by CSR state
 added by this specification.
@@ -45,7 +49,8 @@ instructions and describes each of the above ISA extensions.
 ====
 _The term CMO encompasses all operations on caches or resources related to
 caches. The term CBO represents a subset of CMOs that operate only on cache
-blocks. The first CMO extensions only define CBOs._
+blocks. The first CMO extensions only define CBOs.
+#The term CIO represents a subset of CMOs that operate only on cache indices.#_
 ====
 
 [#background,reftext="Background"]
@@ -95,6 +100,13 @@ the size of a cache block are both _implementation-specific_, and the execution
 environment provides software a means to discover information about the caches
 and cache blocks in a system. In the initial set of CMO extensions, the size of
 a cache block shall be uniform throughout the system.
+
+#A cache block is a fixed-size copy of data that can be temporarily stored in a
+cache but has a unique home location in memory as defined by its physical addresses.#
+
+#A cache index is a location within a cache that holds one cache block. 
+Cache indices are consecutively numbered starting from 0. The total number
+of cache indices dictates the maximum capacity of the cache.#
 
 [NOTE]
 ====
@@ -146,6 +158,28 @@ A cache-block prefetch instruction is a HINT to the hardware that software
 expects to perform a particular type of memory access in the near future.
 Additional details are described in <<#Zicbop>>.
 
+==== #Cache-Index Operations#
+
+#A CIO instruction causes one or more operations to be performed on the cache
+index identified by the instruction. In general, a CIO instruction may identify
+one or more cache indices; however, in this CIO extension, CIO
+instructions identify a single cache index only.#
+
+#A cache-index management instruction performs one of the following operations,
+relative to the copy of an resident cache block stored at the provided cache index:#
+
+* #An _invalidate operation_ deallocates the copy of the resident cache block#
+
+* #A _clean operation_ performs a write transfer to another cache or to memory if
+  the data in the copy of the resident cache block have been modified by a store
+  operation#
+
+* #A _flush operation_ atomically performs a clean operation followed by an
+  invalidate operation on the resident cache block#
+
+#Additional details, including the actual operation performed by a given
+cache-block management instruction, are described in <<#Ziciom>>.#
+
 [#coherent-agents-caches,reftext="Coherent Agents and Caches"]
 === Coherent Agents and Caches
 
@@ -175,13 +209,15 @@ Caches introduce the possibility that multiple copies of a given cache block may
 be present in a system at the same time. An _implementation-specific_ mechanism
 keeps these copies coherent with respect to the load and store operations from
 the agents in the set of coherent agents. Additionally, if a coherent agent in
-the set executes a CBO instruction that specifies the cache block, the resulting
+the set executes a CBO instruction that specifies the cache block,
+#or a CIO instruction that identifies a resident cache block,#
+the resulting
 operation shall apply to any and all of the copies in the caches that can be
 accessed by the load and store operations from the coherent agents.
 
 [NOTE]
 ====
-_An operation from a CBO instruction is defined to operate only on the copies of
+_An operation from a CBO instruction #or CIO instruction# is defined to operate only on the copies of
 a cache block that are cached in the caches accessible by the explicit memory
 accesses performed by the set of coherent agents. This includes copies of a
 cache block in caches that are accessed only indirectly by load and store
@@ -238,6 +274,9 @@ then _a_ will precede _b_ in the global memory order if:
 * _a_ is an invalidate, clean, or flush, _b_ is a load, and _a_ and _b_ access
   overlapping memory addresses
 
+#Cache-index management instructions behave similarly, except the addresses
+and any overlap are determined by the cache blocks resident at the specified indices.#
+
 [NOTE]
 ====
 _The above rule ensures that a subsequent load in program order never appears
@@ -259,6 +298,8 @@ _not_ ordered by the PPO rules nor are they ordered by any other ordering
 instructions.
 
 ===== Load Values
+
+#DOES THIS SECTION NEED TO CHANGE?#
 
 An invalidate operation may change the set of values that can be returned by a
 load. In particular, an additional condition is added to the Load Value Axiom:
@@ -312,12 +353,16 @@ in the <<#csr_state>> section.
 Cache-block prefetch instructions raise neither illegal instruction exceptions
 nor virtual instruction exceptions.
 
+#CIO instructions raise neither illegal instruction exceptions
+nor virtual instruction exceptions.
+(IS THIS WHAT WE WANT? DO WE WANT INDEX RANGE CHECKING?)#
+
 ===== Page Fault, Guest-Page Fault, and Access Fault Exceptions
 
-Similar to load and store instructions, CMO instructions are explicit memory
+Similar to load and store instructions, +++<S>+++CMO+++</S>+++ #CBO# instructions are explicit memory
 access instructions that compute an effective address. The effective address is
 ultimately translated into a physical address based on the privilege mode and
-the enabled translation mechanisms, and the CMO extensions impose the following
+the enabled translation mechanisms, and the +++<S>+++CMO+++</S>+++ #CBO# extensions impose the following
 constraints on the physical addresses in a given cache block:
 
 * The PMP access control bits shall be the same for _all_ physical addresses in
@@ -337,7 +382,7 @@ _This specification assumes that the above constraints will typically be met for
 main memory regions and may be met for certain I/O regions._
 ====
 
-Additionally, for the purposes of PMP and PMA checks, the access size of a CMO
+Additionally, for the purposes of PMP and PMA checks, the access size of a +++<S>+++CMO+++</S>+++ #CBO#
 instruction equals the size of the cache block accessed by the instruction.
 
 The Zicboz extension introduces an additional supported access type PMA for
@@ -350,12 +395,16 @@ block whenever a load instruction or store instruction is permitted to access
 the corresponding physical addresses. If neither a load instruction nor store
 instruction is permitted to access the physical addresses, but an instruction
 fetch is permitted to access the physical addresses, whether a cache-block
-management instruction is permitted to access the cache block is UNSPECIFIED. If
+management instruction is permitted to access the cache block is UNSPECIFIED #CHECK THIS#. If
 access to the cache block is not permitted, a cache-block management instruction
 raises a store page fault or store guest-page fault exception if address
 translation does not permit any access or raises a store access fault exception
-otherwise. During address translation, the instruction also checks the accessed
+otherwise #CHECK THIS#. During address translation, the instruction also checks the accessed
 bit and may either raise an exception or set the bit as required.
+
+#Do we have to check PMP/PMA for underlying physical address of a resident block
+operated on by a CIO? Presumably the address was previously vetted when the load
+or store was performed that caused the underlying cache block to be allocated or modified.#
 
 [NOTE]
 ====
@@ -393,11 +442,11 @@ faulting address value as for other causes of these exceptions).
 _Like a load or store instruction, a CMO instruction may or may not be permitted
 to access a cache block based on the states of the `MPRV`, `MPV`, and `MPP` bits
 in `mstatus` and the `SUM` and `MXR` bits in `mstatus`, `sstatus`, and
-`vsstatus`._
+`vsstatus`. #CHECK THIS#_
 
 _This specification expects that implementations will process cache-block
 management instructions like store/AMO instructions, so store/AMO exceptions are
-appropriate for these instructions, regardless of the permissions required._
+appropriate for these instructions, regardless of the permissions required. #CHECK THIS#_
 ====
 
 ===== Address Misaligned Exceptions
@@ -411,6 +460,7 @@ of trigger modules with respect to CMO instructions is UNSPECIFIED.
 
 [NOTE]
 ====
+#CHECK THIS#
 _For the Zicbom, Zicboz, and Zicbop extensions, this specification recommends
 the following common trigger module behaviors:_
 
@@ -470,6 +520,7 @@ Zicbom and Zicbop extensions is expected to be defined in future extensions._
 
 ===== Hypervisor Extension
 
+#CHECK THIS#
 For the purposes of writing the `mtinst` or `htinst` register on a trap, the
 following standard transformation is defined for cache-block management
 instructions and cache-block zero instructions:
@@ -499,7 +550,7 @@ or `htinst` instead of the standard transformation defined above._
 The following event is added to the list of events that satisfy the eventuality
 guarantee provided by constrained LR/SC loops, as defined in the A extension:
 
-* Some other hart executes a cache-block management instruction or a cache-block
+* Some other hart executes a cache-block management instruction, #cache-index management instruction,# or a cache-block
   zero instruction to the reservation set of the LR instruction in _H_'s
   constrained LR/SC loop.
 
@@ -527,6 +578,11 @@ discovered by software:
 * The size of the cache block for zero instructions
 * CBIE support at each privilege level
 
+#The CIO extension requires the following information to be discovered by software:#
+
+* #The number of cache levels in the set of coherent agents for each hart#
+* #The number of cache indices at each level available to each hart#
+
 Other general cache characteristics may also be specified in the discovery
 mechanism.
 
@@ -553,6 +609,8 @@ implemented and enabled.
 
 Each `x{csrname}` register (where `x` is `m`, `s`, or `h`) has the following
 generic format:
+
+#TODO: ADD CIO INSTRUCTIONS APPROPRIATELY; CIO.INVAL IS A PRIVILEGED OPERATION#
 
 .Generic Format for x{csrname} CSRs
 [cols="^10,^10,80a"]
@@ -708,6 +766,7 @@ values from the execution environment discovery mechanism.
 CMO instructions are defined in the following extensions:
 
 * <<#Zicbom>>
+* #<<#Ziciom>>#
 * <<#Zicboz>>
 * <<#Zicbop>>
 
@@ -779,6 +838,76 @@ The following instructions comprise the Zicbom extension:
 
 |===
 
+
+[#Ziciom,reftext="Cache-Index Management Instructions"]
+==== #Cache-Index Management Instructions#
+
+#Cache-index# management instructions enable software running on a set of coherent
+agents to communicate with a set of non-coherent agents by performing one of the
+following operations:
+
+* An invalidate operation makes data from store operations performed by a set of
+  non-coherent agents visible to the set of coherent agents at a point common to
+  both sets by deallocating all copies of a cache block from the set of coherent
+  caches up to that point
+  
+* A clean operation makes data from store operations performed by the set of
+  coherent agents visible to a set of non-coherent agents at a point common to
+  both sets by performing a write transfer of a copy of a cache block to that
+  point provided a coherent agent performed a store operation that modified the
+  data in the cache block since the previous invalidate, clean, or flush
+  operation on the cache block
+  
+* A flush operation atomically performs a clean operation followed by an
+  invalidate operation
+
+In the #Ziciom# extension, the instructions operate to a point common to _all_
+agents in the system. In other words, an invalidate operation ensures that store
+operations from all non-coherent agents visible to agents in the set of coherent
+agents, and a clean operation ensures that store operations from coherent agents
+visible to all non-coherent agents.
+
+[NOTE]
+====
+_The #Ziciom# extension does not prohibit agents that fall outside of the above
+architectural definition; however, software cannot rely on the defined cache
+operations to have the desired effects with respect to those agents._
+
+_Future extensions may define different sets of agents for the purposes of
+performance optimization._
+====
+
+These instructions operate on the cache block #resident in the cache index that is#
+specified in _rs1_. +++<S>+++The effective address is translated into a corresponding
+physical address by the appropriate translation mechanisms.+++</S>+++
+
+The following instructions comprise the #Ziciom# extension:
+
+[%header,cols="^1,^1,4,8"]
+|===
+|RV32
+|RV64
+|Mnemonic
+|Instruction
+
+|&#10003;
+|&#10003;
+|cio.clean _base_
+|<<#insns-cio_clean>>
+
+|&#10003;
+|&#10003;
+|cio.flush _base_
+|<<#insns-cio_flush>>
+
+|&#10003;
+|&#10003;
+|cio.inval _base_
+|<<#insns-cio_inval>>
+
+|===
+
+
 [#Zicboz,reftext="Cache-Block Zero Instructions"]
 ==== Cache-Block Zero Instructions
 
@@ -813,6 +942,7 @@ The following instructions comprise the Zicboz extension:
 |<<#insns-cbo_zero>>
 
 |===
+
 
 [#Zicbop,reftext="Cache-Block Prefetch Instructions"]
 ==== Cache-Block Prefetch Instructions
@@ -1150,3 +1280,128 @@ Operation::
 --
 TODO
 --
+
+
+[#insns-cio_clean,reftext="Cache Index Clean"]
+==== #cio.clean#
+
+Synopsis::
+Perform a clean operation on a cache index
+
+Mnemonic::
+cio.clean _offset_(_base_)
+
+Encoding::
+[wavedrom, , svg]
+....
+{reg:[
+	{ bits: 7,  name: 0xF,   attr: ['MISC-MEM'] },
+	{ bits: 5,  name: 0x0 },
+	{ bits: 3,  name: 0x2,   attr: ['CIO'] },
+	{ bits: 5,  name: 'rs1', attr: ['base'] },
+	{ bits: 12, name: 0x001, attr: ['CIO.CLEAN'] },
+]}
+....
+
+Description::
+
+A *cio.clean* instruction performs a clean operation on the cache block resident
+in the cache index specified in _rs1_. The offset operand may
+be omitted; otherwise, any expression that computes the offset shall evaluate to
+zero. The instruction operates on the set of coherent caches accessed by the
+agent executing the instruction.
+
+[NOTE]
+====
+_When executing a *cio.clean* instruction, an implementation may instead perform
+a flush operation, since the result of that operation is indistinguishable from
+the sequence of performing a clean operation just before deallocating all cached
+copies in the set of coherent caches._
+====
+
+Operation::
+[source,sail]
+--
+TODO
+--
+
+[#insns-cio_flush,reftext="Cache Index Flush"]
+==== #cio.flush#
+
+Synopsis::
+Perform a flush operation on a cache index
+
+Mnemonic::
+cio.flush _offset_(_base_)
+
+Encoding::
+[wavedrom, , svg]
+....
+{reg:[
+	{ bits: 7,  name: 0xF,   attr: ['MISC-MEM'] },
+	{ bits: 5,  name: 0x0 },
+	{ bits: 3,  name: 0x2,   attr: ['CIO'] },
+	{ bits: 5,  name: 'rs1', attr: ['base'] },
+	{ bits: 12, name: 0x002, attr: ['CIO.FLUSH'] },
+]}
+....
+
+Description::
+
+A *cio.flush* instruction performs a flush operation on the cache block resident
+in the cache index specified in _rs1_. The offset operand may
+be omitted; otherwise, any expression that computes the offset shall evaluate to
+zero. The instruction operates on the set of coherent caches accessed by the
+agent executing the instruction.
+
+Operation::
+[source,sail]
+--
+TODO
+--
+
+[#insns-cio_inval,reftext="Cache Index Invalidate"]
+==== #cio.inval#
+
+Synopsis::
+Perform an invalidate operation on a cache index
+
+Mnemonic::
+cio.inval _offset_(_base_)
+
+Encoding::
+[wavedrom, , svg]
+....
+{reg:[
+	{ bits: 7,  name: 0xF,   attr: ['MISC-MEM'] },
+	{ bits: 5,  name: 0x0 },
+	{ bits: 3,  name: 0x2,   attr: ['CIO'] },
+	{ bits: 5,  name: 'rs1', attr: ['base'] },
+	{ bits: 12, name: 0x000, attr: ['CIO.INVAL'] },
+]}
+....
+
+Description::
+
+A *cio.inval* instruction performs an invalidate operation on the cache block
+resident in the cache index specified in _rs1_. The offset
+operand may be omitted; otherwise, any expression that computes the offset shall
+evaluate to zero. The instruction operates on the set of coherent caches
+accessed by the agent executing the instruction. Depending on CSR programming,
+the instruction may perform a flush operation instead of an invalidate
+operation.
+
+[NOTE]
+====
+_When executing a *cio.inval* instruction, an implementation may instead perform
+a flush operation, since the result of that operation is indistinguishable from
+the sequence of performing a write transfer to memory just before performing an
+invalidate operation._
+====
+
+Operation::
+[source,sail]
+--
+TODO
+--
+
