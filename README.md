@@ -4,7 +4,7 @@
 This repository represents an administrative repository for the SoftCPU SIG. It should contain documents to facilitate the group function, e.g. meeting minutes and supporting documents. It should not contain code nor specifications.
 
 - SIG Charter [CHARTER.md](CHARTER.md)
-- Mailing list [https://github.com/riscv-admin/sig-soft-cpu](https://github.com/riscv-admin/sig-soft-cpu)
+- Mailing list [https://lists.riscv.org/g/sig-soft-cpu/](https://lists.riscv.org/g/sig-soft-cpu/)
 - Gaps and priorities [GAPS.md](GAPS.md)
 
 For RISC-V members:
