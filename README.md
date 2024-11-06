@@ -15,4 +15,8 @@ For RISC-V members:
 Related Work
 ============
 
-In an effort to standardize the way custom instructions are created and shared, this SIG has launched a Task Group for Composable Custom Extensions (CX) with working documents here: [https://github.com/riscv-admin/composable-custom-extensions](https://github.com/riscv-admin/composable-custom-extensions). The TG will be producing multiple official RISC-V extensions, and is basing its efforts upon background work done from 2019-2023 by members of the SoftCPU SIG which resulted in the _Basis Spec_: [https://github.com/grayresearch/CX](https://github.com/grayresearch/CX).
+In an effort to standardize the way custom instructions are created and shared, this SIG has launched a **Task Group for Composable Custom Extensions (CX TG)** with working documents here: [https://github.com/riscv-admin/composable-custom-extensions](https://github.com/riscv-admin/composable-custom-extensions).
+
+The **CX TG** will define a framework of ISA and non-ISA specifications that together facilitate the decentralized, cooperative reuse of the custom instruction and custom CSR space, enabling practical reuse, within a system, of multiple, independently authored composable custom extensions (CXs), CX libraries, and CX unit (CXU) logic modules, while also remaining backwards compatible with legacy custom extensions.
+
+A basis for this effort was developed by members of the SoftCPU SIG from 2019-2023, resulting in the _Basis Spec_: [https://github.com/grayresearch/CX](https://github.com/grayresearch/CX).
