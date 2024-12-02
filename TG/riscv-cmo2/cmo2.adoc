@@ -581,7 +581,7 @@ discovered by software:
 #The CIO extension requires the following information to be discovered by software:#
 
 * #The number of cache levels in the set of coherent agents for each hart#
-* #The number of cache indices at each level available to each hart#
+* #The number of cache indices at each cache level available to each hart#
 
 Other general cache characteristics may also be specified in the discovery
 mechanism.
@@ -842,17 +842,17 @@ The following instructions comprise the Zicbom extension:
 [#Ziciom,reftext="Cache-Index Management Instructions"]
 ==== #Cache-Index Management Instructions#
 
-#Cache-index# management instructions enable software running on a set of coherent
-agents to communicate with a set of non-coherent agents by performing one of the
+#Cache-index# management instructions enable software #running on a set of coherent
+agents to communicate with a set of non-coherent agents# by performing one of the
 following operations:
 
-* An invalidate operation makes data from store operations performed by a set of
-  non-coherent agents visible to the set of coherent agents at a point common to
+* An invalidate operation makes data from store operations #performed by a set of
+  non-coherent agents# visible to the set of coherent agents at a point common to
   both sets by deallocating all copies of a cache block from the set of coherent
   caches up to that point
   
-* A clean operation makes data from store operations performed by the set of
-  coherent agents visible to a set of non-coherent agents at a point common to
+* A clean operation makes data from store operations #performed by the set of
+  coherent agents# visible to a set of non-coherent agents at a point common to
   both sets by performing a write transfer of a copy of a cache block to that
   point provided a coherent agent performed a store operation that modified the
   data in the cache block since the previous invalidate, clean, or flush
@@ -861,11 +861,11 @@ following operations:
 * A flush operation atomically performs a clean operation followed by an
   invalidate operation
 
-In the #Ziciom# extension, the instructions operate to a point common to _all_
-agents in the system. In other words, an invalidate operation ensures that store
+In the #Ziciom# extension, the instructions #operate to a point common to _all_
+agents# in the system. In other words, #an invalidate operation ensures that store
 operations from all non-coherent agents visible to agents in the set of coherent
 agents, and a clean operation ensures that store operations from coherent agents
-visible to all non-coherent agents.
+visible to all non-coherent agents#.
 
 [NOTE]
 ====
@@ -1289,7 +1289,7 @@ Synopsis::
 Perform a clean operation on a cache index
 
 Mnemonic::
-cio.clean _offset_(_base_)
+cio.clean _offset_(_index_)
 
 Encoding::
 [wavedrom, , svg]
@@ -1298,8 +1298,8 @@ Encoding::
 	{ bits: 7,  name: 0xF,   attr: ['MISC-MEM'] },
 	{ bits: 5,  name: 0x0 },
 	{ bits: 3,  name: 0x2,   attr: ['CBO'] },
-	{ bits: 5,  name: 'rs1', attr: ['base'] },
-	{ bits: 12, name: 0x001, attr: ['CIO.CLEAN'] },
+	{ bits: 5,  name: 'rs1', attr: ['index'] },
+	{ bits: 12, name: 0x009, attr: ['CIO.CLEAN'] },
 ]}
 ....
 
@@ -1310,8 +1310,8 @@ Description::
 A *cio.clean* instruction performs a clean operation on the cache block resident
 in the cache index specified in _rs1_. The offset operand may
 be omitted; otherwise, any expression that computes the offset shall evaluate to
-zero. The instruction operates on the set of coherent caches accessed by the
-agent executing the instruction.
+zero. #The instruction operates on the set of coherent caches accessed by the
+agent executing the instruction.#
 
 [NOTE]
 ====
@@ -1334,7 +1334,7 @@ Synopsis::
 Perform a flush operation on a cache index
 
 Mnemonic::
-cio.flush _offset_(_base_)
+cio.flush _offset_(_index_)
 
 Encoding::
 [wavedrom, , svg]
@@ -1343,8 +1343,8 @@ Encoding::
 	{ bits: 7,  name: 0xF,   attr: ['MISC-MEM'] },
 	{ bits: 5,  name: 0x0 },
 	{ bits: 3,  name: 0x2,   attr: ['CBO'] },
-	{ bits: 5,  name: 'rs1', attr: ['base'] },
-	{ bits: 12, name: 0x002, attr: ['CIO.FLUSH'] },
+	{ bits: 5,  name: 'rs1', attr: ['index'] },
+	{ bits: 12, name: 0x00A, attr: ['CIO.FLUSH'] },
 ]}
 ....
 
@@ -1353,8 +1353,8 @@ Description::
 A *cio.flush* instruction performs a flush operation on the cache block resident
 in the cache index specified in _rs1_. The offset operand may
 be omitted; otherwise, any expression that computes the offset shall evaluate to
-zero. The instruction operates on the set of coherent caches accessed by the
-agent executing the instruction.
+zero. #The instruction operates on the set of coherent caches accessed by the
+agent executing the instruction.#
 
 Operation::
 [source,sail]
@@ -1369,7 +1369,7 @@ Synopsis::
 Perform an invalidate operation on a cache index
 
 Mnemonic::
-cio.inval _offset_(_base_)
+cio.inval _offset_(_index_)
 
 Encoding::
 [wavedrom, , svg]
@@ -1378,8 +1378,8 @@ Encoding::
 	{ bits: 7,  name: 0xF,   attr: ['MISC-MEM'] },
 	{ bits: 5,  name: 0x0 },
 	{ bits: 3,  name: 0x2,   attr: ['CBO'] },
-	{ bits: 5,  name: 'rs1', attr: ['base'] },
-	{ bits: 12, name: 0x000, attr: ['CIO.INVAL'] },
+	{ bits: 5,  name: 'rs1', attr: ['index'] },
+	{ bits: 12, name: 0x008, attr: ['CIO.INVAL'] },
 ]}
 ....
 
@@ -1388,8 +1388,8 @@ Description::
 A *cio.inval* instruction performs an invalidate operation on the cache block
 resident in the cache index specified in _rs1_. The offset
 operand may be omitted; otherwise, any expression that computes the offset shall
-evaluate to zero. The instruction operates on the set of coherent caches
-accessed by the agent executing the instruction. Depending on CSR programming,
+evaluate to zero. #The instruction operates on the set of coherent caches
+accessed by the agent executing the instruction.# Depending on CSR programming,
 the instruction may perform a flush operation instead of an invalidate
 operation.
 
